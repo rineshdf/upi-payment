@@ -1,122 +1,25 @@
 <!DOCTYPE html>
 <html>
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>UPI Payment</title>
 
-<title>UPI Payment</title>
-
-<style>
-    /* Completely blank while redirect is being attempted */
-    body {
-        margin: 0;
-        background: white;
-        font-family: Arial, sans-serif;
-    }
-
-    #fallback {
-        display: none;
-        min-height: 100vh;
-        align-items: center;
-        justify-content: center;
-        background: #f5f5f5;
-    }
-
-    .card {
-        width: 90%;
-        max-width: 400px;
-        background: white;
-        padding: 35px 25px;
-        border-radius: 24px;
-        text-align: center;
-        box-shadow: 0 8px 30px rgba(0,0,0,.12);
-    }
-
-    h1 {
-        font-size: 30px;
-        margin: 0 0 15px;
-    }
-
-    .subtitle {
-        color: #666;
-        font-size: 17px;
-    }
-
-    .pay {
-        display: block;
-        width: 100%;
-        padding: 18px 0;
-        margin-top: 28px;
-        border: 0;
-        border-radius: 12px;
-        background: #087f3e;
-        color: white;
-        font-size: 19px;
-        font-weight: bold;
-        text-decoration: none;
-    }
-
-    .upi {
-        margin-top: 25px;
-        color: #666;
-        font-size: 15px;
-    }
-</style>
+    <script>
+        window.onload = function () {
+            window.location.href =
+                "upi://pay?pa=9629502088@ybl&pn=Antony%20Jaffer&cu=INR";
+        };
+    </script>
 </head>
 
 <body>
+    <p>Opening UPI apps...</p>
 
-<!-- Fallback interface -->
-<div id="fallback">
-
-    <div class="card">
-
-        <h1>UPI Payment</h1>
-
-        <div class="subtitle">
-            Tap below to choose your UPI app
-        </div>
-
-        <a class="pay"
-           href="upi://pay?pa=9629502088%40ybl&pn=Antony%20Jaffer&cu=INR">
-            💳 Pay with UPI
+    <p>
+        If nothing happens,
+        <a href="upi://pay?pa=9629502088@ybl&pn=Antony%20Jaffer&cu=INR">
+            Tap here to open UPI
         </a>
-
-        <div class="upi">
-            UPI ID: 9629502088@ybl
-        </div>
-
-    </div>
-
-</div>
-
-<script>
-
-const upiURL =
-    "upi://pay?pa=9629502088%40ybl" +
-    "&pn=Antony%20Jaffer" +
-    "&cu=INR";
-
-/*
- * Attempt automatic UPI launch immediately.
- */
-window.location.href = upiURL;
-
-
-/*
- * If the browser does NOT leave this page,
- * reveal the fallback interface.
- *
- * 1.5 seconds is short enough that the user
- * normally won't notice the failed attempt.
- */
-setTimeout(function () {
-
-    document.getElementById("fallback").style.display = "flex";
-
-}, 1500);
-
-</script>
-
+    </p>
 </body>
 </html>
