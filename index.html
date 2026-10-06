@@ -1,25 +1,93 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>UPI Payment</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <script>
-        window.onload = function () {
-            window.location.href =
-                "upi://pay?pa=9629502088@ybl&pn=Antony%20Jaffer&cu=INR";
-        };
-    </script>
+<title>UPI Payment</title>
+
+<style>
+    body {
+        margin: 0;
+        min-height: 100vh;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        background: #f4f4f4;
+        font-family: Arial, sans-serif;
+    }
+
+    .box {
+        width: 90%;
+        max-width: 400px;
+        background: white;
+        padding: 30px;
+        border-radius: 20px;
+        text-align: center;
+        box-shadow: 0 5px 25px rgba(0,0,0,0.15);
+    }
+
+    h1 {
+        margin-bottom: 10px;
+    }
+
+    p {
+        color: #666;
+    }
+
+    .pay {
+        width: 100%;
+        padding: 17px 0;
+        margin-top: 25px;
+        border: none;
+        border-radius: 12px;
+        background: #087f3e;
+        color: white;
+        font-size: 18px;
+        font-weight: bold;
+        cursor: pointer;
+    }
+
+    .upi {
+        margin-top: 20px;
+        font-size: 14px;
+        color: #666;
+    }
+</style>
 </head>
 
 <body>
-    <p>Opening UPI apps...</p>
 
-    <p>
-        If nothing happens,
-        <a href="upi://pay?pa=9629502088@ybl&pn=Antony%20Jaffer&cu=INR">
-            Tap here to open UPI
-        </a>
-    </p>
+<div class="box">
+
+    <h1>UPI Payment</h1>
+
+    <p>Tap below to choose your UPI app</p>
+
+    <button class="pay" onclick="payWithUPI()">
+        💳 Pay with UPI
+    </button>
+
+    <div class="upi">
+        UPI ID: 9629502088@ybl
+    </div>
+
+</div>
+
+<script>
+
+function payWithUPI() {
+
+    const upi =
+        "upi://pay" +
+        "?pa=9629502088@ybl" +
+        "&pn=Antony%20Jaffer" +
+        "&cu=INR";
+
+    window.location.href = upi;
+}
+
+</script>
+
 </body>
 </html>
