@@ -1,78 +1,93 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-<title>UPI Payment</title>
-
-<style>
-body {
-    margin: 0;
-    min-height: 100vh;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    background: #f2f4f7;
-    font-family: Arial, sans-serif;
-}
-
-.container {
-    width: 90%;
-    max-width: 400px;
-    background: white;
-    padding: 30px;
-    border-radius: 20px;
-    text-align: center;
-    box-shadow: 0 5px 25px rgba(0,0,0,0.12);
-}
-
-h1 {
-    margin-bottom: 10px;
-}
-
-p {
-    color: #666;
-}
-
-.pay-button {
-    display: block;
-    margin-top: 25px;
-    padding: 16px;
-    background: #087f3e;
-    color: white;
-    text-decoration: none;
-    border-radius: 10px;
-    font-size: 18px;
-    font-weight: bold;
-}
-
-.upi-id {
-    margin-top: 20px;
-    font-size: 14px;
-    color: #555;
-}
-</style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Redirecting to Payment App...</title>
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      background-color: #f4f6f8;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      padding: 20px;
+    }
+    .card {
+      background: #ffffff;
+      padding: 32px 24px;
+      border-radius: 16px;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+      text-align: center;
+      max-width: 380px;
+      width: 100%;
+    }
+    .icon {
+      width: 48px;
+      height: 48px;
+      margin-bottom: 16px;
+    }
+    h2 {
+      font-size: 20px;
+      color: #1a1a1a;
+      margin-bottom: 8px;
+    }
+    p {
+      font-size: 14px;
+      color: #666666;
+      line-height: 1.5;
+      margin-bottom: 24px;
+    }
+    .btn {
+      display: block;
+      width: 100%;
+      padding: 14px 0;
+      background-color: #1a73e8;
+      color: #ffffff;
+      text-decoration: none;
+      font-size: 16px;
+      font-weight: 600;
+      border-radius: 8px;
+      transition: background-color 0.2s ease;
+    }
+    .btn:active {
+      background-color: #1557b0;
+    }
+  </style>
 </head>
-
 <body>
 
-<div class="container">
-
-    <h1>UPI Payment</h1>
-
-    <p>Tap below to pay using your preferred UPI app.</p>
-
-    <a class="pay-button"
-       href="upi://pay?pa=9629502088@ybl&pn=Antony%20Jaffer&cu=INR">
-       💳 Pay with UPI
+  <div class="card">
+    <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="#1a73e8" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <rect x="2" y="5" width="20" height="14" rx="2"></rect>
+      <line x1="2" y1="10" x2="22" y2="10"></line>
+    </svg>
+    <h2>Opening UPI App...</h2>
+    <p>If your payment app doesn't open automatically, tap the button below.</p>
+    <a id="payBtn" class="btn" href="upi://pay?pa=9629502088@ybl&pn=Antony%20Jaffer&cu=INR">
+      Open UPI App
     </a>
+  </div>
 
-    <div class="upi-id">
-        UPI ID: 9629502088@ybl
-    </div>
+  <script>
+    const upiLink = "upi://pay?pa=9629502088@ybl&pn=Antony%20Jaffer&cu=INR";
 
-</div>
+    // Immediate attempt to launch installed UPI intent
+    window.location.href = upiLink;
+
+    // Fallback trigger on window load if browser delayed execution
+    window.addEventListener("load", () => {
+      setTimeout(() => {
+        window.location.href = upiLink;
+      }, 300);
+    });
+  </script>
 
 </body>
 </html>
