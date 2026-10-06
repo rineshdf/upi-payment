@@ -7,94 +7,113 @@
 <title>UPI Payment</title>
 
 <style>
-body {
-    margin: 0;
-    min-height: 100vh;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    background: #f5f5f5;
-    font-family: Arial, sans-serif;
-}
+    /* Completely blank while redirect is being attempted */
+    body {
+        margin: 0;
+        background: white;
+        font-family: Arial, sans-serif;
+    }
 
-.card {
-    width: 90%;
-    max-width: 400px;
-    background: white;
-    padding: 35px 25px;
-    border-radius: 24px;
-    text-align: center;
-    box-shadow: 0 8px 30px rgba(0,0,0,.12);
-}
+    #fallback {
+        display: none;
+        min-height: 100vh;
+        align-items: center;
+        justify-content: center;
+        background: #f5f5f5;
+    }
 
-h1 {
-    font-size: 30px;
-}
+    .card {
+        width: 90%;
+        max-width: 400px;
+        background: white;
+        padding: 35px 25px;
+        border-radius: 24px;
+        text-align: center;
+        box-shadow: 0 8px 30px rgba(0,0,0,.12);
+    }
 
-.subtitle {
-    color: #666;
-    font-size: 17px;
-}
+    h1 {
+        font-size: 30px;
+        margin: 0 0 15px;
+    }
 
-.pay {
-    display: block;
-    width: 100%;
-    padding: 18px 0;
-    margin-top: 28px;
-    border: none;
-    border-radius: 12px;
-    background: #087f3e;
-    color: white;
-    font-size: 19px;
-    font-weight: bold;
-    text-decoration: none;
-}
+    .subtitle {
+        color: #666;
+        font-size: 17px;
+    }
 
-.upi {
-    margin-top: 25px;
-    color: #666;
-    font-size: 15px;
-}
+    .pay {
+        display: block;
+        width: 100%;
+        padding: 18px 0;
+        margin-top: 28px;
+        border: 0;
+        border-radius: 12px;
+        background: #087f3e;
+        color: white;
+        font-size: 19px;
+        font-weight: bold;
+        text-decoration: none;
+    }
 
-/* Hide fallback initially */
-#fallback {
-    display: none;
-}
+    .upi {
+        margin-top: 25px;
+        color: #666;
+        font-size: 15px;
+    }
 </style>
 </head>
 
 <body>
 
-<div class="card" id="fallback">
+<!-- Fallback interface -->
+<div id="fallback">
 
-    <h1>UPI Payment</h1>
+    <div class="card">
 
-    <div class="subtitle">
-        Tap below to choose your UPI app
-    </div>
+        <h1>UPI Payment</h1>
 
-    <a class="pay"
-       href="upi://pay?pa=9629502088%40ybl&pn=Antony%20Jaffer&cu=INR">
-        💳 Pay with UPI
-    </a>
+        <div class="subtitle">
+            Tap below to choose your UPI app
+        </div>
 
-    <div class="upi">
-        UPI ID: 9629502088@ybl
+        <a class="pay"
+           href="upi://pay?pa=9629502088%40ybl&pn=Antony%20Jaffer&cu=INR">
+            💳 Pay with UPI
+        </a>
+
+        <div class="upi">
+            UPI ID: 9629502088@ybl
+        </div>
+
     </div>
 
 </div>
 
 <script>
 
-const upi =
-"upi://pay?pa=9629502088%40ybl&pn=Antony%20Jaffer&cu=INR";
+const upiURL =
+    "upi://pay?pa=9629502088%40ybl" +
+    "&pn=Antony%20Jaffer" +
+    "&cu=INR";
 
-/* Try automatic launch */
-window.location.href = upi;
+/*
+ * Attempt automatic UPI launch immediately.
+ */
+window.location.href = upiURL;
 
-/* If we're still here, show fallback */
+
+/*
+ * If the browser does NOT leave this page,
+ * reveal the fallback interface.
+ *
+ * 1.5 seconds is short enough that the user
+ * normally won't notice the failed attempt.
+ */
 setTimeout(function () {
-    document.getElementById("fallback").style.display = "block";
+
+    document.getElementById("fallback").style.display = "flex";
+
 }, 1500);
 
 </script>
