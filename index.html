@@ -7,64 +7,69 @@
 <title>UPI Payment</title>
 
 <style>
-    body {
-        margin: 0;
-        min-height: 100vh;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        background: #f4f4f4;
-        font-family: Arial, sans-serif;
-    }
+* {
+    box-sizing: border-box;
+}
 
-    .box {
-        width: 90%;
-        max-width: 400px;
-        background: white;
-        padding: 30px;
-        border-radius: 20px;
-        text-align: center;
-        box-shadow: 0 5px 25px rgba(0,0,0,0.15);
-    }
+body {
+    margin: 0;
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: #f4f4f4;
+    font-family: Arial, sans-serif;
+}
 
-    h1 {
-        margin-bottom: 10px;
-    }
+.box {
+    width: 92%;
+    max-width: 400px;
+    background: white;
+    padding: 35px 25px;
+    border-radius: 24px;
+    text-align: center;
+    box-shadow: 0 8px 30px rgba(0,0,0,0.12);
+}
 
-    p {
-        color: #666;
-    }
+h1 {
+    margin: 0 0 15px;
+    font-size: 30px;
+}
 
-    .pay {
-        width: 100%;
-        padding: 17px 0;
-        margin-top: 25px;
-        border: none;
-        border-radius: 12px;
-        background: #087f3e;
-        color: white;
-        font-size: 18px;
-        font-weight: bold;
-        cursor: pointer;
-    }
+p {
+    color: #666;
+    font-size: 17px;
+}
 
-    .upi {
-        margin-top: 20px;
-        font-size: 14px;
-        color: #666;
-    }
+.pay {
+    width: 100%;
+    padding: 18px;
+    margin-top: 25px;
+    border: 0;
+    border-radius: 12px;
+    background: #087f3e;
+    color: white;
+    font-size: 19px;
+    font-weight: bold;
+}
+
+.upi {
+    margin-top: 25px;
+    color: #666;
+    font-size: 15px;
+}
 </style>
 </head>
 
 <body>
 
-<div class="box">
+<div class="box" id="fallback">
 
     <h1>UPI Payment</h1>
 
     <p>Tap below to choose your UPI app</p>
 
-    <button class="pay" onclick="payWithUPI()">
+    <button class="pay" onclick="openUPI()">
         💳 Pay with UPI
     </button>
 
@@ -76,16 +81,52 @@
 
 <script>
 
-function payWithUPI() {
+const upiURL =
+    "upi://pay" +
+    "?pa=9629502088%40ybl" +
+    "&pn=Antony%20Jaffer" +
+    "&cu=INR";
 
-    const upi =
-        "upi://pay" +
-        "?pa=9629502088@ybl" +
-        "&pn=Antony%20Jaffer" +
-        "&cu=INR";
+/*
+    FIRST ATTEMPT:
+    Immediately launch the UPI intent.
+*/
 
-    window.location.href = upi;
+let redirected = false;
+
+function launchUPI() {
+    redirected = true;
+
+    // Try Android UPI intent
+    window.location.href = upiURL;
+
+    // If browser does not leave the page,
+    // keep the fallback interface visible.
+    setTimeout(function() {
+        document.getElementById("fallback").style.display = "block";
+    }, 1500);
 }
+
+/*
+    FALLBACK BUTTON
+*/
+
+function openUPI() {
+    window.location.href = upiURL;
+}
+
+/*
+    Start automatic redirect.
+*/
+
+window.addEventListener("load", function() {
+
+    // Give the page a moment to load
+    setTimeout(function() {
+        launchUPI();
+    }, 300);
+
+});
 
 </script>
 
