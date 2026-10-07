@@ -3,90 +3,98 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Redirecting to Payment App...</title>
+  <title>Pay Allen Selvaraj</title>
   <style>
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
     body {
       font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-      background-color: #f4f6f8;
+      background-color: #f7f9fc;
       display: flex;
       justify-content: center;
       align-items: center;
       min-height: 100vh;
-      padding: 20px;
+      padding: 16px;
     }
     .card {
       background: #ffffff;
-      padding: 32px 24px;
+      padding: 28px 20px;
       border-radius: 16px;
-      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+      box-shadow: 0 8px 24px rgba(0,0,0,0.06);
       text-align: center;
-      max-width: 380px;
+      max-width: 360px;
       width: 100%;
     }
-    .icon {
-      width: 48px;
-      height: 48px;
-      margin-bottom: 16px;
-    }
-    h2 {
-      font-size: 20px;
-      color: #1a1a1a;
-      margin-bottom: 8px;
-    }
-    p {
-      font-size: 14px;
-      color: #666666;
-      line-height: 1.5;
-      margin-bottom: 24px;
-    }
+    .payee-title { font-size: 14px; color: #6b7280; font-weight: 500; text-transform: uppercase; letter-spacing: 0.5px; }
+    .payee-name { font-size: 20px; font-weight: 700; color: #111827; margin: 6px 0 2px; }
+    .payee-vpa { font-size: 13px; color: #4b5563; background: #f3f4f6; display: inline-block; padding: 4px 10px; border-radius: 20px; margin-bottom: 22px; }
+    
+    .btn-group { display: flex; flex-direction: column; gap: 10px; }
+    
     .btn {
-      display: block;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
       width: 100%;
-      padding: 14px 0;
-      background-color: #1a73e8;
-      color: #ffffff;
+      padding: 13px;
       text-decoration: none;
-      font-size: 16px;
+      font-size: 15px;
       font-weight: 600;
-      border-radius: 8px;
-      transition: background-color 0.2s ease;
+      border-radius: 10px;
+      transition: opacity 0.15s ease;
     }
-    .btn:active {
-      background-color: #1557b0;
-    }
+    .btn:active { opacity: 0.85; }
+
+    .btn-upi { background-color: #2563eb; color: #ffffff; }
+    .btn-gpay { background-color: #ffffff; color: #3c4043; border: 1px solid #dadce0; }
+    .btn-phonepe { background-color: #5f259f; color: #ffffff; }
+    .btn-paytm { background-color: #00b9f5; color: #ffffff; }
+
+    .note { margin-top: 18px; font-size: 12px; color: #9ca3af; line-height: 1.4; }
   </style>
 </head>
 <body>
 
   <div class="card">
-    <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="#1a73e8" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-      <rect x="2" y="5" width="20" height="14" rx="2"></rect>
-      <line x1="2" y1="10" x2="22" y2="10"></line>
-    </svg>
-    <h2>Opening UPI App...</h2>
-    <p>If your payment app doesn't open automatically, tap the button below.</p>
-    <a id="payBtn" class="btn" href="upi://pay?pa=allenselvaraj@sbi&pn=Allen%20Selvaraj&cu=INR">
-      Open UPI App
-    </a>
+    <div class="payee-title">Paying To</div>
+    <div class="payee-name">Allen Selvaraj</div>
+    <div class="payee-vpa">allenselvaraj@sbi</div>
+
+    <div class="btn-group">
+      <!-- Universal Intent -->
+      <a class="btn btn-upi" href="upi://pay?pa=allenselvaraj@sbi&pn=Allen%20Selvaraj&cu=INR">
+        ⚡ Open Default UPI App
+      </a>
+
+      <!-- Direct GPay Intent -->
+      <a class="btn btn-gpay" href="gpay://upi/pay?pa=allenselvaraj@sbi&pn=Allen%20Selvaraj&cu=INR">
+        Google Pay
+      </a>
+
+      <!-- Direct PhonePe Intent -->
+      <a class="btn btn-phonepe" href="phonepe://pay?pa=allenselvaraj@sbi&pn=Allen%20Selvaraj&cu=INR">
+        PhonePe
+      </a>
+
+      <!-- Direct Paytm Intent -->
+      <a class="btn btn-paytm" href="paytmmp://pay?pa=allenselvaraj@sbi&pn=Allen%20Selvaraj&cu=INR">
+        Paytm
+      </a>
+    </div>
+
+    <p class="note">Tap your preferred app if your phone did not launch automatically.</p>
   </div>
 
   <script>
-    const upiLink = "upi://pay?pa=allenselvaraj@sbi&pn=Allen%20Selvaraj&cu=INR";
-
-    // Immediate attempt to launch installed UPI intent
-    window.location.href = upiLink;
-
-    // Fallback trigger on window load if browser delayed execution
-    window.addEventListener("load", () => {
-      setTimeout(() => {
-        window.location.href = upiLink;
-      }, 300);
-    });
+    // Immediate execution without waiting for page assets/images to load
+    (function() {
+      const upiUrl = "upi://pay?pa=allenselvaraj@sbi&pn=Allen%20Selvaraj&cu=INR";
+      try {
+        window.location.replace(upiUrl);
+      } catch (e) {
+        window.location.href = upiUrl;
+      }
+    })();
   </script>
 
 </body>
