@@ -2,279 +2,219 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
   <title>Payment Details</title>
   <style>
     * { box-sizing: border-box; margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; }
-    body { background-color: #f1f5f9; display: flex; justify-content: center; align-items: center; min-height: 100vh; padding: 24px 16px; }
+    html, body { height: 100vh; overflow: hidden; background: #f1f5f9; display: flex; justify-content: center; align-items: center; }
     
     .card {
       background: #ffffff;
-      width: 100%;
-      max-width: 390px;
-      padding: 26px 20px;
-      border-radius: 24px;
-      box-shadow: 0 10px 30px rgba(0,0,0,0.07);
-      text-align: center;
-    }
-    
-    h2 { font-size: 20px; font-weight: 800; color: #0f172a; margin-bottom: 6px; }
-    .subtitle { font-size: 13px; color: #64748b; margin-bottom: 16px; }
-
-    /* Highlight Banner for Phone Payment */
-    .pay-mode-badge {
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
-      background: #ecfdf5;
-      color: #065f46;
-      border: 1px solid #a7f3d0;
-      padding: 6px 12px;
+      width: 92%;
+      max-width: 360px;
+      padding: 16px;
       border-radius: 20px;
-      font-size: 12px;
-      font-weight: 700;
-      margin-bottom: 14px;
-    }
-
-    /* Interactive Tap-to-Copy Phone Box */
-    .phone-copy-card {
-      background: #eff6ff;
-      border: 2px dashed #0284c7;
-      border-radius: 14px;
-      padding: 12px 14px;
-      margin-bottom: 14px;
-      cursor: pointer;
-      transition: all 0.2s ease;
+      box-shadow: 0 8px 24px rgba(0,0,0,0.06);
+      text-align: center;
       display: flex;
-      justify-content: space-between;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .header h2 { font-size: 17px; font-weight: 800; color: #0f172a; }
+    .header p { font-size: 11px; color: #64748b; margin-top: 1px; }
+
+    /* Compact QR & Phone Side-by-Side */
+    .top-grid {
+      display: grid;
+      grid-template-columns: 110px 1fr;
+      gap: 10px;
       align-items: center;
-    }
-    .phone-copy-card:hover { background: #e0f2fe; }
-    .phone-copy-card:active { transform: scale(0.98); }
-    
-    .phone-meta { text-align: left; }
-    .phone-meta .tag { font-size: 11px; font-weight: 700; color: #0284c7; text-transform: uppercase; letter-spacing: 0.5px; }
-    .phone-meta .number { font-size: 19px; font-weight: 900; color: #0f172a; letter-spacing: 0.5px; margin-top: 2px; }
-    
-    .copy-pill-indicator {
-      background: #0284c7;
-      color: #ffffff;
-      font-size: 12px;
-      font-weight: 700;
-      padding: 7px 12px;
-      border-radius: 8px;
-      transition: 0.2s;
-    }
-
-    /* QR Code Display */
-    .qr-container {
-      background: #ffffff;
+      background: #f8fafc;
       padding: 10px;
-      border-radius: 16px;
-      border: 1.5px solid #e2e8f0;
-      display: inline-block;
-      margin-bottom: 12px;
+      border-radius: 14px;
+      border: 1px solid #e2e8f0;
     }
-    .qr-container img { width: 160px; height: 160px; display: block; }
 
-    /* Action Buttons */
-    .btn-group { display: flex; flex-direction: column; gap: 8px; margin-bottom: 18px; }
+    .qr-box img {
+      width: 110px;
+      height: 110px;
+      display: block;
+      border-radius: 8px;
+      background: #fff;
+    }
+
+    .pay-actions {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      text-align: left;
+    }
+
+    .phone-tag { font-size: 10px; font-weight: 700; color: #0284c7; text-transform: uppercase; }
+    .phone-val { font-size: 15px; font-weight: 900; color: #0f172a; }
+
+    /* Compact Buttons */
     .btn {
-      width: 100%;
-      padding: 12px 0;
-      border-radius: 12px;
-      font-size: 14px;
+      padding: 7px 10px;
+      border-radius: 8px;
+      font-size: 11.5px;
       font-weight: 700;
       border: none;
       cursor: pointer;
       display: flex;
       align-items: center;
       justify-content: center;
-      gap: 8px;
-      transition: all 0.2s ease;
+      gap: 5px;
+      transition: 0.15s ease;
+      width: 100%;
     }
-    .btn-phone { background-color: #0284c7; color: #ffffff; }
-    .btn-phone:active { background-color: #0369a1; }
-    .btn-download { background-color: #f8fafc; color: #1e293b; border: 1.5px solid #cbd5e1; }
-    .btn-download:active { background-color: #e2e8f0; }
+    .btn-copy { background: #0284c7; color: #fff; }
+    .btn-copy:active { background: #0369a1; }
+    .btn-dl { background: #ffffff; color: #334155; border: 1px solid #cbd5e1; }
+    .btn-dl:active { background: #e2e8f0; }
 
-    /* Step-by-Step Payment Helper */
-    .app-steps-box {
+    /* Clean Bank Summary Table */
+    .bank-box {
       background: #f8fafc;
       border: 1px solid #e2e8f0;
       border-radius: 12px;
-      padding: 12px;
-      text-align: left;
-      font-size: 12.5px;
-      color: #334155;
-      line-height: 1.5;
-      margin-bottom: 18px;
-    }
-    .app-steps-box b { color: #0f172a; }
-
-    /* Bank Account Details */
-    .bank-card {
-      background: #f8fafc;
-      border: 1.5px solid #e2e8f0;
-      border-radius: 16px;
-      padding: 14px 16px;
+      padding: 8px 12px;
       text-align: left;
     }
-    .bank-header {
-      font-size: 11px;
+    .bank-title {
+      font-size: 10.5px;
       font-weight: 800;
       color: #0284c7;
-      letter-spacing: 0.8px;
-      text-transform: uppercase;
-      margin-bottom: 8px;
+      letter-spacing: 0.5px;
+      margin-bottom: 4px;
     }
-    .info-row {
+    .row {
       display: flex;
       justify-content: space-between;
       align-items: center;
-      padding: 5px 0;
+      padding: 3px 0;
+      font-size: 11.5px;
       border-bottom: 1px dashed #e2e8f0;
-      font-size: 12.5px;
     }
-    .info-row:last-child { border-bottom: none; }
-    .label { color: #64748b; font-weight: 600; font-size: 11.5px; }
-    .value { color: #0f172a; font-weight: 800; text-align: right; }
+    .row:last-child { border-bottom: none; }
+    .lbl { color: #64748b; font-weight: 600; font-size: 10.5px; }
+    .val { color: #0f172a; font-weight: 800; }
     
-    .copy-chip {
+    .chip {
       background: #e2e8f0;
       color: #334155;
-      font-size: 10px;
+      font-size: 9px;
       font-weight: 700;
-      padding: 2px 6px;
-      border-radius: 5px;
-      cursor: pointer;
-      margin-left: 6px;
+      padding: 1px 5px;
+      border-radius: 4px;
       border: none;
+      cursor: pointer;
+      margin-left: 4px;
     }
-    .copy-chip:active { background: #cbd5e1; }
+    .chip:active { background: #cbd5e1; }
   </style>
 </head>
 <body>
 
   <div class="card">
-    <h2>Make Payment</h2>
-    <div class="subtitle">Quick UPI &amp; Bank Transfer</div>
-
-    <!-- Payment via Phone Highlight Badge -->
-    <div class="pay-mode-badge">
-      ⚡ Pay via Phone Number on GPay / PhonePe / Paytm
+    <!-- Header -->
+    <div class="header">
+      <h2>Payment Options</h2>
+      <p>Scan QR, pay by Phone Number, or Bank Transfer</p>
     </div>
 
-    <!-- Tap to Copy Phone Number Box -->
-    <div class="phone-copy-card" onclick="copyText('8838903573', 'phoneIndicator', '📋 Tap to Copy')">
-      <div class="phone-meta">
-        <div class="tag">Tap to copy phone number</div>
-        <div class="number">8838903573</div>
-      </div>
-      <div class="copy-pill-indicator" id="phoneIndicator">📋 Tap to Copy</div>
-    </div>
-
-    <!-- Quick How-To Helper -->
-    <div class="app-steps-box">
-      <b>How to pay using Phone Number:</b><br>
-      1. Tap the number above to copy <b>8838903573</b>.<br>
-      2. Open <b>GPay</b>, <b>PhonePe</b>, or <b>Paytm</b>.<br>
-      3. Select <b>"Pay Phone Number"</b>, paste the number, and send payment!
-    </div>
-
-    <!-- QR Code Section -->
-    <div class="qr-container">
-      <img id="qrImg" src="https://api.qrserver.com/v1/create-qr-code/?size=350x350&data=upi%3A%2F%2Fpay%3Fpa%3Dallenselvaraj%40sbi%26pn%3DALLEN%2520S%2520D%2520PAUL%2520SELVARAJ" alt="Payment QR Code">
-    </div>
-
-    <div class="btn-group">
-      <button class="btn btn-phone" id="phoneBtn" onclick="copyText('8838903573', 'phoneBtn', '📱 Copy Phone: 8838903573')">
-        📱 Copy Phone: 8838903573
-      </button>
-
-      <button class="btn btn-download" id="dlBtn" onclick="downloadQR()">
-        📥 Download QR Image
-      </button>
-    </div>
-
-    <!-- Complete Bank Account Details -->
-    <div class="bank-card">
-      <div class="bank-header">🏛️ STATE BANK OF INDIA</div>
-
-      <div class="info-row">
-        <span class="label">NAME</span>
-        <span class="value">ALLEN S D PAUL SELVARAJ</span>
+    <!-- Top Section: QR Code + Quick Phone Pay -->
+    <div class="top-grid">
+      <div class="qr-box">
+        <img id="qrImg" src="https://api.qrserver.com/v1/create-qr-code/?size=250x250&data=upi%3A%2F%2Fpay%3Fpa%3Dallenselvaraj%40sbi%26pn%3DALLEN%2520S%2520D%2520PAUL%2520SELVARAJ" alt="Payment QR">
       </div>
 
-      <div class="info-row">
-        <span class="label">ACCOUNT NO</span>
-        <span class="value">
+      <div class="pay-actions">
+        <div>
+          <div class="phone-tag">GPay / PhonePe No</div>
+          <div class="phone-val">8838903573</div>
+        </div>
+
+        <button class="btn btn-copy" id="phoneBtn" onclick="copyText('8838903573', 'phoneBtn', '📋 Copy Phone No')">
+          📋 Copy Phone No
+        </button>
+
+        <button class="btn btn-dl" id="dlBtn" onclick="downloadQR()">
+          📥 Save QR Code
+        </button>
+      </div>
+    </div>
+
+    <!-- Bank Details Section -->
+    <div class="bank-box">
+      <div class="bank-title">STATE BANK OF INDIA</div>
+
+      <div class="row">
+        <span class="lbl">NAME</span>
+        <span class="val">ALLEN S D PAUL SELVARAJ</span>
+      </div>
+
+      <div class="row">
+        <span class="lbl">A/C NO</span>
+        <span class="val">
           45147364819
-          <button class="copy-chip" onclick="copyText('45147364819', null)">Copy</button>
+          <button class="chip" onclick="copyText('45147364819', null)">Copy</button>
         </span>
       </div>
 
-      <div class="info-row">
-        <span class="label">IFSC CODE</span>
-        <span class="value">SBIN0064310</span>
+      <div class="row">
+        <span class="lbl">IFSC</span>
+        <span class="val">SBIN0064310</span>
       </div>
 
-      <div class="info-row">
-        <span class="label">PHONE NO</span>
-        <span class="value">
-          8838903573
-          <button class="copy-chip" onclick="copyText('8838903573', null)">Copy</button>
+      <div class="row">
+        <span class="lbl">UPI ID</span>
+        <span class="val">
+          allenselvaraj@sbi
+          <button class="chip" onclick="copyText('allenselvaraj@sbi', null)">Copy</button>
         </span>
-      </div>
-
-      <div class="info-row">
-        <span class="label">UPI ID</span>
-        <span class="value">allenselvaraj@sbi</span>
       </div>
     </div>
   </div>
 
   <script>
-    // Universal copy function
-    function copyText(val, elemId, originalText) {
+    function copyText(val, btnId, originalText) {
       navigator.clipboard.writeText(val).then(() => {
-        if (elemId) {
-          const el = document.getElementById(elemId);
-          el.innerText = "✓ Copied!";
-          el.style.backgroundColor = "#16a34a";
+        if (btnId) {
+          const btn = document.getElementById(btnId);
+          btn.innerText = "✓ Copied!";
+          btn.style.backgroundColor = "#16a34a";
           setTimeout(() => {
-            el.innerText = originalText;
-            el.style.backgroundColor = "#0284c7";
-          }, 2500);
+            btn.innerText = originalText;
+            btn.style.backgroundColor = "#0284c7";
+          }, 2000);
         } else {
           alert("Copied: " + val);
         }
       });
     }
 
-    // Direct Image Downloader
     async function downloadQR() {
       const qrUrl = "https://api.qrserver.com/v1/create-qr-code/?size=400x400&data=upi%3A%2F%2Fpay%3Fpa%3Dallenselvaraj%40sbi%26pn%3DALLEN%2520S%2520D%2520PAUL%2520SELVARAJ";
       const btn = document.getElementById("dlBtn");
-      btn.innerText = "⏳ Downloading...";
+      btn.innerText = "⏳ Saving...";
       try {
         const response = await fetch(qrUrl);
         const blob = await response.blob();
         const blobUrl = window.URL.createObjectURL(blob);
         const link = document.createElement("a");
         link.href = blobUrl;
-        link.download = "UPI_Payment_QR.png";
+        link.download = "Payment_QR.png";
         document.body.appendChild(link);
         link.click();
         document.body.removeChild(link);
         window.URL.revokeObjectURL(blobUrl);
-        btn.innerText = "✓ Saved to Photos!";
-        setTimeout(() => {
-          btn.innerText = "📥 Download QR Image";
-        }, 2500);
+        btn.innerText = "✓ Saved!";
+        setTimeout(() => { btn.innerText = "📥 Save QR Code"; }, 2000);
       } catch (err) {
         window.open(qrUrl, "_blank");
-        btn.innerText = "📥 Download QR Image";
+        btn.innerText = "📥 Save QR Code";
       }
     }
   </script>
